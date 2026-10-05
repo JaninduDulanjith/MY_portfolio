@@ -9,7 +9,7 @@ const educationItems = [
     period: '2021 – Present'
   },
   {
-    title: 'GCE Advanced Level (18)',
+    title: 'GCE Advanced Level (2020)',
     institution: 'Mahinda College Galle',
     indexNo: '1892972',
     badge: 'A/L Completed',
