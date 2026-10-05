@@ -5,8 +5,13 @@ import {
   MailIcon,
   PhoneIcon,
   MapPinIcon,
-  LinkedinIcon
+  LinkedinIcon,
+  CheckCircle2Icon,
+  SendIcon,
+  Loader2Icon,
+  AlertCircleIcon
 } from 'lucide-react';
+
 export function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, {
@@ -18,11 +23,55 @@ export function Contact() {
     email: '',
     message: ''
   });
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formState);
+    if (!formState.name || !formState.email || !formState.message) return;
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/janindujayasundara@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          _subject: `New Portfolio Message from ${formState.name}`,
+          _template: 'table'
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok || result.success === 'true' || result.success === true) {
+        setIsSubmitted(true);
+        setFormState({ name: '', email: '', message: '' });
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (error) {
+      // Fallback to mailto link if API fetch encounters issues
+      const mailtoUrl = `mailto:janindujayasundara@gmail.com?subject=${encodeURIComponent(
+        `Portfolio Message from ${formState.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`
+      )}`;
+      window.location.href = mailtoUrl;
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   return (
     <section
       id="contact"
@@ -121,55 +170,99 @@ export function Contact() {
           </motion.div>
 
           {/* Contact Form */}
-          <motion.form
+          <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            onSubmit={handleSubmit}
-            className="space-y-4 xs:space-y-5 bg-[#111111]/80 backdrop-blur-md border border-white/10 p-5 xs:p-7 md:p-9 rounded-2xl xs:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+            className="bg-[#111111]/80 backdrop-blur-md border border-white/10 p-5 xs:p-7 md:p-9 rounded-2xl xs:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
           >
-            <div>
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={formState.name}
-                onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40"
-                required
-              />
-            </div>
+            {isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-6 space-y-4"
+              >
+                <div className="w-14 h-14 bg-[#ccff00]/10 border border-[#ccff00] rounded-full flex items-center justify-center mx-auto text-[#ccff00]">
+                  <CheckCircle2Icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-display font-extrabold text-white uppercase">
+                  Message Sent!
+                </h3>
+                <p className="text-sm text-white/70 max-w-sm mx-auto leading-relaxed">
+                  Thank you for reaching out! Your message has been sent directly to{' '}
+                  <span className="text-[#ccff00] font-semibold">janindujayasundara@gmail.com</span>. I will reply to you as soon as possible.
+                </p>
+                <button
+                  onClick={() => setIsSubmitted(false)}
+                  className="mt-4 px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-display font-bold text-xs uppercase tracking-wider rounded-full transition-all"
+                >
+                  Send Another Message
+                </button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-5">
+                {errorMessage && (
+                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center gap-2 text-red-400 text-xs font-sans">
+                    <AlertCircleIcon className="w-4 h-4 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
 
-            <div>
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={formState.email}
-                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40"
-                required
-              />
-            </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={formState.name}
+                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                    className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40"
+                    required
+                  />
+                </div>
 
-            <div>
-              <textarea
-                placeholder="Your Message"
-                value={formState.message}
-                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                rows={4}
-                className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40 resize-none"
-                required
-              />
-            </div>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    value={formState.email}
+                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                    className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40"
+                    required
+                  />
+                </div>
 
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-auto px-8 sm:px-10 py-3.5 bg-[#ccff00] text-black font-display font-extrabold text-xs uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_10px_25px_rgba(204,255,0,0.3)]"
-            >
-              Send Message
-            </motion.button>
-          </motion.form>
+                <div>
+                  <textarea
+                    placeholder="Your Message"
+                    value={formState.message}
+                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                    rows={4}
+                    className="w-full bg-transparent border-b border-white/20 focus:border-[#ccff00] text-white font-sans text-xs xs:text-sm py-3 outline-none transition-colors duration-300 placeholder:text-white/40 resize-none"
+                    required
+                  />
+                </div>
+
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="w-full sm:w-auto px-8 sm:px-10 py-3.5 bg-[#ccff00] text-black font-display font-extrabold text-xs uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_10px_25px_rgba(204,255,0,0.3)] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2Icon className="w-4 h-4 animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Send Message</span>
+                      <SendIcon className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </motion.button>
+              </form>
+            )}
+          </motion.div>
         </div>
 
         {/* Footer */}
