@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { FileTextIcon, DownloadIcon } from 'lucide-react';
 
 const educationItems = [
   {
