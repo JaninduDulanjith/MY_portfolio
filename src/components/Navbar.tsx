@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MenuIcon, XIcon, ArrowUpRightIcon } from 'lucide-react';
 
@@ -22,7 +22,19 @@ export function Navbar() {
   const [activeCategory, setActiveCategory] = useState<string>('Mobile App Design');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isHoveredRef = useRef(false);
+  const mobileMenuOpenRef = useRef(false);
+
+  useEffect(() => {
+    mobileMenuOpenRef.current = mobileMenuOpen;
+    if (mobileMenuOpen) {
+      setShowNavbar(true);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    }
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleCategoryEvent = (e: CustomEvent<string>) => {
@@ -35,12 +47,43 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    const resetTimer = () => {
+      setShowNavbar(true);
+      if (timerRef.current) clearTimeout(timerRef.current);
+
+      timerRef.current = setTimeout(() => {
+        if (!isHoveredRef.current && !mobileMenuOpenRef.current) {
+          setShowNavbar(false);
+        }
+      }, 2500);
+    };
+
+    // Show navbar initially on mount
+    resetTimer();
+
+    const handleActivity = () => {
+      resetTimer();
+    };
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('scroll', handleActivity, { passive: true });
+    window.addEventListener('touchstart', handleActivity, { passive: true });
+    window.addEventListener('touchmove', handleActivity, { passive: true });
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('scroll', handleActivity);
+      window.removeEventListener('touchstart', handleActivity);
+      window.removeEventListener('touchmove', handleActivity);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const heroElement = document.getElementById('home');
       const heroHeight = heroElement ? heroElement.offsetHeight : window.innerHeight;
       
-      // Show navbar as user scrolls down past top area
-      setShowNavbar(window.scrollY > 40);
       setScrolled(window.scrollY > heroHeight - 150);
 
       const sections = ['home', 'about', 'experience', 'projects', 'contact'];
@@ -109,6 +152,22 @@ export function Navbar() {
     return true;
   };
 
+  const handleMouseEnter = () => {
+    isHoveredRef.current = true;
+    setShowNavbar(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+  };
+
+  const handleMouseLeave = () => {
+    isHoveredRef.current = false;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      if (!isHoveredRef.current && !mobileMenuOpenRef.current) {
+        setShowNavbar(false);
+      }
+    }, 2000);
+  };
+
   return (
     <AnimatePresence>
       {showNavbar && (
@@ -118,6 +177,8 @@ export function Navbar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className={`pointer-events-auto w-full max-w-5xl rounded-full transition-all duration-500 border ${
               scrolled
                 ? 'bg-[#0a0a0a]/90 border-white/15 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-2.5 px-4 sm:px-6 md:px-8'
@@ -215,6 +276,8 @@ export function Navbar() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 className="pointer-events-auto absolute top-16 sm:top-20 left-3 right-3 xs:left-4 xs:right-4 bg-[#121212]/95 border border-white/15 rounded-2xl xs:rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-2xl md:hidden flex flex-col gap-2.5 max-h-[80vh] overflow-y-auto custom-scrollbar"
               >
                 <div className="text-[10px] text-[#ccff00] font-mono tracking-widest uppercase mb-0.5 flex items-center gap-1.5">
