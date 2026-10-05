@@ -83,7 +83,7 @@ export function Navbar() {
     const handleScroll = () => {
       const heroElement = document.getElementById('home');
       const heroHeight = heroElement ? heroElement.offsetHeight : window.innerHeight;
-      
+
       setScrolled(window.scrollY > heroHeight - 150);
 
       const sections = ['home', 'about', 'experience', 'projects', 'contact'];
@@ -110,7 +110,7 @@ export function Navbar() {
 
   const handleNavClick = (item: NavItem) => {
     setMobileMenuOpen(false);
-    
+
     // If a category filter is specified, dispatch event to Projects component
     if (item.category) {
       setActiveCategory(item.category);
@@ -179,11 +179,10 @@ export function Navbar() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`pointer-events-auto w-full max-w-7xl h-16 rounded-full transition-all duration-300 border px-4 sm:px-6 md:px-8 flex items-center justify-between gap-4 sm:gap-6 ${
-              scrolled
+            className={`pointer-events-auto w-full max-w-7xl h-16 rounded-full transition-all duration-300 border px-4 sm:px-6 md:px-8 flex items-center justify-between gap-4 sm:gap-6 ${scrolled
                 ? 'bg-[#08080a]/92 border-white/20 backdrop-blur-2xl shadow-[0_14px_45px_rgba(0,0,0,0.9)]'
                 : 'bg-[#121216]/88 border-white/12 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.7)]'
-            }`}
+              }`}
           >
             {/* Brand Logo & Avatar with Status Accent */}
             <a
@@ -229,11 +228,10 @@ export function Navbar() {
                       />
                     )}
                     <span
-                      className={`relative z-10 transition-colors duration-300 ${
-                        isActive
+                      className={`relative z-10 transition-colors duration-300 ${isActive
                           ? 'text-black font-black'
                           : 'text-white/75 hover:text-white'
-                      }`}
+                        }`}
                     >
                       {item.label}
                     </span>
@@ -307,7 +305,7 @@ export function Navbar() {
                     <ArrowUpRightIcon className="w-4 h-4 text-white/40" />
                   </button>
                 ))}
-                
+
                 <a
                   href="/Janindu_Jayasundara_CV.pdf"
                   target="_blank"
