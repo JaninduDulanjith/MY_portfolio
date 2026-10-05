@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { FileTextIcon, DownloadIcon } from 'lucide-react';
 
 const Node = ({ className }: { className?: string }) => (
   <div className={`absolute w-2.5 h-2.5 bg-[#ccff00] rounded-xs shadow-[0_0_8px_rgba(204,255,0,0.8)] z-30 ${className}`} />
@@ -70,6 +71,21 @@ export function About() {
                 <br /><br />
                 I enjoy solving real-world problems through thoughtful design, combining creativity with usability to build products that are both beautiful and highly functional. I'm continuously learning, exploring modern design trends, and striving to create meaningful digital experiences that leave a lasting impact.
               </p>
+
+              {/* Download CV CTA */}
+              <div className="mt-6 sm:mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center gap-4">
+                <a
+                  href="/Janindu_Jayasundara_CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Janindu_Jayasundara_CV.pdf"
+                  className="group px-6 py-3 bg-[#ccff00] hover:bg-white text-black font-display font-extrabold text-xs uppercase tracking-wider rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center gap-2"
+                >
+                  <FileTextIcon className="w-4 h-4" />
+                  <span>Download Full CV</span>
+                  <DownloadIcon className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+                </a>
+              </div>
             </div>
           </motion.div>
 
