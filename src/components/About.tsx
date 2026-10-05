@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const Node = ({ className }: { className?: string }) => (
-  <div className={`absolute w-2.5 h-2.5 bg-[#ccff00] ${className}`} />
+  <div className={`absolute w-2.5 h-2.5 bg-[#ccff00] rounded-xs shadow-[0_0_8px_rgba(204,255,0,0.8)] z-30 ${className}`} />
 );
 
 export function About() {
@@ -37,31 +37,35 @@ export function About() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-6 xs:mb-8 md:mb-12"
+          className="mb-6 sm:mb-10"
         >
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black text-white tracking-tight uppercase leading-none">
+          <div className="text-[#ccff00] font-mono text-[11px] sm:text-xs font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-ping" />
+            <span>01. Introduction</span>
+          </div>
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-white tracking-tight uppercase leading-none">
             About <span className="text-white/35">Me</span>
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-8 sm:gap-12 lg:gap-14">
           {/* Left Column - Content Card */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            whileHover={{ y: -6, scale: 1.008 }}
-            className="w-full lg:w-[55%] flex flex-col gap-6"
+            whileHover={{ y: -4, scale: 1.005 }}
+            className="w-full lg:w-[56%] flex flex-col justify-center"
           >
-            <div className="bg-[#111111]/90 backdrop-blur-md border border-white/10 hover:border-[#ccff00]/50 transition-all duration-500 rounded-2xl xs:rounded-3xl p-6 xs:p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.6)] relative overflow-hidden group">
+            <div className="bg-[#111111]/90 backdrop-blur-md border border-white/10 hover:border-[#ccff00]/50 transition-all duration-500 rounded-2xl xs:rounded-3xl p-6 xs:p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] relative overflow-hidden group h-full flex flex-col justify-center">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#ccff00]/5 rounded-bl-full pointer-events-none transition-all duration-500 group-hover:scale-125 group-hover:bg-[#ccff00]/10" />
 
-              <h3 className="text-[#ccff00] font-mono font-bold text-xs xs:text-sm sm:text-base md:text-lg mb-5 xs:mb-7 uppercase tracking-widest flex items-center gap-2 xs:gap-2.5">
+              <h3 className="text-[#ccff00] font-mono font-bold text-xs sm:text-sm md:text-base mb-4 sm:mb-5 uppercase tracking-widest flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#ccff00] inline-block animate-pulse shadow-[0_0_8px_#ccff00] shrink-0" />
                 <span>UI / UX Designer &amp; IT Undergraduate</span>
               </h3>
 
-              <p className="text-white/90 text-base xs:text-lg sm:text-xl md:text-2xl leading-relaxed sm:leading-loose font-sans font-normal">
+              <p className="text-white/90 text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose font-sans font-normal">
                 I'm <strong className="text-white font-extrabold">Janindu Jayasundara</strong>, a UI/UX Designer and IT undergraduate passionate about crafting intuitive, user-centered digital experiences.
                 <br /><br />
                 I enjoy solving real-world problems through thoughtful design, combining creativity with usability to build products that are both beautiful and highly functional. I'm continuously learning, exploring modern design trends, and striving to create meaningful digital experiences that leave a lasting impact.
@@ -74,13 +78,13 @@ export function About() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, delay: 0.4 }}
-            className="w-full lg:w-[45%] relative flex justify-center items-center h-[360px] xs:h-[420px] sm:h-[480px] lg:h-[580px]"
+            className="w-full lg:w-[44%] relative flex justify-center items-center min-h-[380px] xs:min-h-[440px] sm:min-h-[500px] lg:min-h-[540px]"
           >
             {/* Portrait */}
-            <div className="absolute z-10 w-[85%] max-w-[420px] h-full bottom-0 flex items-end justify-center">
+            <div className="absolute z-10 w-[85%] max-w-[400px] h-full bottom-0 flex items-end justify-center">
               {/* Soft neon glow spotlight behind portrait */}
               <motion.div
-                animate={{ opacity: [0.12, 0.22, 0.12], scale: [0.98, 1.04, 0.98] }}
+                animate={{ opacity: [0.14, 0.26, 0.14], scale: [0.98, 1.04, 0.98] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 className="absolute top-[15%] w-[110%] h-[60%] bg-[#ccff00] blur-[80px] rounded-full pointer-events-none z-0"
               />
@@ -96,21 +100,21 @@ export function About() {
               />
             </div>
 
-            {/* Bounding Box Frame */}
-            <div className="absolute z-20 w-[88%] max-w-[390px] h-[86%] top-[7%] border-[1.5px] border-white/80 pointer-events-none rounded-sm">
-              <Node className="top-[-4px] left-[-4px]" />
-              <Node className="top-[-4px] right-[-4px]" />
-              <Node className="bottom-[-4px] left-[-4px]" />
-              <Node className="bottom-[-4px] right-[-4px]" />
+            {/* Bounding Box Frame with Centered Nodes */}
+            <div className="absolute z-20 w-[88%] max-w-[380px] h-[86%] top-[7%] border-[1.5px] border-white/80 pointer-events-none rounded-xs">
+              <Node className="-top-1.5 -left-1.5" />
+              <Node className="-top-1.5 -right-1.5" />
+              <Node className="-bottom-1.5 -left-1.5" />
+              <Node className="-bottom-1.5 -right-1.5" />
 
-              <Node className="top-[-4px] left-1/2 -translate-x-1/2" />
-              <Node className="bottom-[-4px] left-1/2 -translate-x-1/2" />
-              <Node className="left-[-4px] top-1/2 -translate-y-1/2" />
-              <Node className="right-[-4px] top-1/2 -translate-y-1/2" />
+              <Node className="-top-1.5 left-1/2 -translate-x-1/2" />
+              <Node className="-bottom-1.5 left-1/2 -translate-x-1/2" />
+              <Node className="-left-1.5 top-1/2 -translate-y-1/2" />
+              <Node className="-right-1.5 top-1/2 -translate-y-1/2" />
 
               {/* Accent Arrow */}
               <svg
-                className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 w-5 h-5 sm:w-6 sm:h-6 text-[#ccff00]"
+                className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 w-5 h-5 sm:w-6 sm:h-6 text-[#ccff00] drop-shadow-[0_0_8px_rgba(204,255,0,0.8)] z-40"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >

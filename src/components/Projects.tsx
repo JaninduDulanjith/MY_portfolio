@@ -322,10 +322,14 @@ export function Projects() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 mb-4 sm:mb-6"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 mb-6 sm:mb-8"
         >
           <div>
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black text-white tracking-tight uppercase leading-none">
+            <div className="text-[#ccff00] font-mono text-[11px] sm:text-xs font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-ping" />
+              <span>03. Portfolio Showcase</span>
+            </div>
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-white tracking-tight uppercase leading-none">
               Selected <span className="text-white/35">Work</span>
             </h2>
           </div>
@@ -336,7 +340,7 @@ export function Projects() {
               <button
                 key={cat}
                 onClick={() => handleCategoryChange(cat)}
-                className="relative px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-display font-bold uppercase tracking-wider transition-colors duration-300 border border-white/10 bg-[#121212] overflow-hidden"
+                className="relative px-3.5 py-1.5 sm:px-4.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-display font-bold uppercase tracking-wider transition-colors duration-300 border border-white/10 bg-[#121212] overflow-hidden"
               >
                 {activeCategory === cat && (
                   <motion.div
@@ -358,7 +362,7 @@ export function Projects() {
         {/* Projects Grid */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-8"
         >
           <AnimatePresence mode="popLayout">
             {displayedProjects.map((project, index) => (
@@ -370,10 +374,10 @@ export function Projects() {
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 onClick={() => setSelectedProject(project)}
-                className="group cursor-pointer bg-[#111111]/70 border border-white/10 hover:border-[#ccff00]/50 transition-all duration-500 rounded-2xl xs:rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-[0_15px_35px_rgba(204,255,0,0.1)]"
+                className="group cursor-pointer bg-[#111111]/80 border border-white/10 hover:border-[#ccff00]/50 transition-all duration-500 rounded-2xl xs:rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-[0_15px_35px_rgba(204,255,0,0.1)] h-full"
               >
                 {/* Image Container */}
-                <div className="relative overflow-hidden bg-[#1a1a1a] aspect-[4/3] w-full">
+                <div className="relative overflow-hidden bg-[#1a1a1a] aspect-[16/10] w-full shrink-0">
                   <motion.img
                     src={project.image}
                     alt={project.title}
@@ -383,44 +387,44 @@ export function Projects() {
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-4 text-center">
                     <motion.div
-                      className="w-12 h-12 sm:w-14 sm:h-14 bg-[#ccff00] rounded-full flex items-center justify-center shadow-lg"
+                      className="w-11 h-11 sm:w-12 sm:h-12 bg-[#ccff00] rounded-full flex items-center justify-center shadow-lg"
                       whileHover={{ scale: 1.1, rotate: 45 }}
                       transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                     >
-                      <ArrowUpRightIcon className="w-6 h-6 sm:w-7 sm:h-7 text-black" />
+                      <ArrowUpRightIcon className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                     </motion.div>
-                    <span className="text-white text-xs sm:text-sm font-display font-bold tracking-widest uppercase bg-black/70 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
+                    <span className="text-white text-[11px] sm:text-xs font-display font-bold tracking-widest uppercase bg-black/70 px-3.5 py-1 rounded-full border border-white/10 backdrop-blur-sm">
                       View Project Details
                     </span>
                   </div>
                 </div>
 
                 {/* Details Container */}
-                <div className="p-5 xs:p-6 md:p-7 flex flex-col justify-between flex-grow">
-                  <div className="space-y-2.5">
+                <div className="p-5 xs:p-6 flex flex-col justify-between flex-grow">
+                  <div className="space-y-2 mb-3">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs sm:text-sm text-[#ccff00] font-mono font-bold tracking-wider uppercase truncate">
+                      <span className="text-xs text-[#ccff00] font-mono font-bold tracking-wider uppercase leading-snug">
                         {project.client}
                       </span>
-                      <span className="text-[10px] sm:text-xs text-white/60 font-mono tracking-wider uppercase bg-white/5 px-2.5 py-0.5 rounded-full shrink-0">
+                      <span className="text-[10px] text-white/60 font-mono tracking-wider uppercase bg-white/5 px-2 py-0.5 rounded-full shrink-0">
                         {project.category === 'Mobile App Design' ? 'Mobile App' : 'Web App'}
                       </span>
                     </div>
-                    <h3 className="text-xl xs:text-2xl md:text-3xl font-display font-extrabold text-white group-hover:text-[#ccff00] transition-colors duration-300 line-clamp-2 leading-snug">
+                    <h3 className="text-lg xs:text-xl md:text-xl font-display font-extrabold text-white group-hover:text-[#ccff00] transition-colors duration-300 line-clamp-2 leading-snug">
                       {project.title}
                     </h3>
                     {project.subtitle && (
-                      <p className="text-sm sm:text-base text-white/80 font-sans line-clamp-2 font-normal leading-relaxed pt-0.5">
+                      <p className="text-xs sm:text-sm text-white/80 font-sans line-clamp-2 font-normal leading-relaxed pt-0.5">
                         {project.subtitle}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 mt-5">
+                  <div className="flex flex-wrap gap-1.5 pt-3.5 border-t border-white/10 mt-auto">
                     {project.tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
-                        className="text-xs sm:text-sm font-mono uppercase tracking-wider px-3 py-1 border border-white/10 text-white/70 rounded-full group-hover:border-white/20 group-hover:text-white/95 transition-colors"
+                        className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5 border border-white/10 text-white/70 rounded-full group-hover:border-white/20 group-hover:text-white/95 transition-colors"
                       >
                         {tag}
                       </span>
