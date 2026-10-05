@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MenuIcon, XIcon, ArrowUpRightIcon } from 'lucide-react';
+import { MenuIcon, XIcon, ArrowUpRightIcon, FileTextIcon } from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -179,36 +179,39 @@ export function Navbar() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`pointer-events-auto w-full max-w-5xl rounded-full transition-all duration-500 border ${
+            className={`pointer-events-auto w-full max-w-7xl h-16 rounded-full transition-all duration-300 border px-4 sm:px-6 md:px-8 flex items-center justify-between gap-4 sm:gap-6 ${
               scrolled
-                ? 'bg-[#0a0a0a]/90 border-white/15 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-2.5 px-4 sm:px-6 md:px-8'
-                : 'bg-[#111111]/80 border-white/10 backdrop-blur-md py-3 px-4 sm:px-6 md:px-9'
-            } flex items-center justify-between`}
+                ? 'bg-[#08080a]/92 border-white/20 backdrop-blur-2xl shadow-[0_14px_45px_rgba(0,0,0,0.9)]'
+                : 'bg-[#121216]/88 border-white/12 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.7)]'
+            }`}
           >
-            {/* Brand Logo / Name */}
+            {/* Brand Logo & Avatar with Status Accent */}
             <a
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick({ label: 'Home', href: '#home' });
               }}
-              className="flex items-center gap-2 xs:gap-2.5 group cursor-pointer"
+              className="flex items-center gap-3 group cursor-pointer shrink-0"
             >
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#ccff00] flex items-center justify-center font-display font-black text-black text-[11px] sm:text-xs tracking-tight group-hover:scale-105 transition-transform duration-300 shadow-[0_0_12px_rgba(204,255,0,0.4)] shrink-0">
-                JJ
+              <div className="relative shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#ccff00] flex items-center justify-center font-display font-black text-black text-xs tracking-tight group-hover:scale-105 transition-transform duration-300 shadow-[0_0_15px_rgba(204,255,0,0.45)]">
+                  JJ
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#ccff00] rounded-full border-2 border-[#0a0a0d] animate-pulse" />
               </div>
               <div className="flex flex-col justify-center">
-                <span className="text-[11px] xs:text-xs sm:text-sm font-display font-extrabold text-white tracking-tight group-hover:text-[#ccff00] transition-colors leading-snug truncate max-w-[130px] xs:max-w-none">
+                <span className="text-xs sm:text-sm md:text-base font-display font-black text-white tracking-tight group-hover:text-[#ccff00] transition-colors leading-none whitespace-nowrap">
                   Janindu Jayasundara
                 </span>
-                <span className="text-[8px] xs:text-[9px] text-white/50 font-mono tracking-widest uppercase leading-none mt-0.5">
-                  UI/UX Portfolio
+                <span className="text-[9px] sm:text-[10px] font-mono text-[#ccff00]/90 tracking-widest uppercase mt-1 leading-none font-bold">
+                  UI / UX Designer
                 </span>
               </div>
             </a>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-1 bg-black/50 p-1.5 rounded-full border border-white/10 backdrop-blur-md">
+            {/* Desktop Navigation Links (Clean floating layout without middle borders) */}
+            <div className="hidden md:flex items-center gap-1.5 shrink-0">
               {navItems.map((item) => {
                 const isActive = isItemActive(item);
 
@@ -216,20 +219,20 @@ export function Navbar() {
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item)}
-                    className="relative px-3.5 lg:px-4 py-1.5 rounded-full text-xs font-display font-bold uppercase tracking-wider transition-colors duration-300"
+                    className="relative px-4 lg:px-5 h-8.5 rounded-full text-xs font-display font-extrabold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap flex items-center justify-center"
                   >
                     {isActive && (
                       <motion.div
                         layoutId="navbarActiveTab"
-                        className="absolute inset-0 bg-[#ccff00] rounded-full shadow-[0_0_15px_rgba(204,255,0,0.35)]"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        className="absolute inset-0 bg-[#ccff00] rounded-full shadow-[0_0_18px_rgba(204,255,0,0.45)]"
+                        transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                       />
                     )}
                     <span
                       className={`relative z-10 transition-colors duration-300 ${
                         isActive
-                          ? 'text-black font-extrabold'
-                          : 'text-white/70 hover:text-white'
+                          ? 'text-black font-black'
+                          : 'text-white/75 hover:text-white'
                       }`}
                     >
                       {item.label}
@@ -239,25 +242,35 @@ export function Navbar() {
               })}
             </div>
 
-            {/* Hire / Contact CTA Button */}
-            <div className="hidden md:flex items-center">
+            {/* Right Action Buttons: CV & Let's Talk CTA */}
+            <div className="hidden md:flex items-center gap-3 shrink-0">
+              <a
+                href="/Janindu_Jayasundara_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="Janindu_Jayasundara_CV.pdf"
+                className="group flex items-center justify-center gap-2 px-4 h-9.5 rounded-full border border-white/20 hover:border-[#ccff00]/70 text-white hover:text-[#ccff00] font-display font-extrabold text-xs uppercase tracking-wider transition-all duration-300 bg-white/5 hover:bg-[#ccff00]/15 shadow-sm whitespace-nowrap"
+              >
+                <FileTextIcon className="w-3.5 h-3.5 text-[#ccff00]" />
+                <span>CV</span>
+              </a>
               <a
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavClick({ label: 'Contact', href: '#contact' });
                 }}
-                className="group flex items-center gap-2 px-4 lg:px-5 py-2 rounded-full bg-[#ccff00] text-black font-display font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all duration-300 shadow-[0_0_15px_rgba(204,255,0,0.25)] hover:shadow-white/20"
+                className="group flex items-center justify-center gap-2 px-5 sm:px-6 h-9.5 rounded-full bg-[#ccff00] text-black font-display font-black text-xs uppercase tracking-wider hover:bg-white transition-all duration-300 shadow-[0_0_24px_rgba(204,255,0,0.4)] hover:shadow-white/40 hover:scale-[1.03] active:scale-[0.98] whitespace-nowrap"
               >
                 <span>Let's Talk</span>
-                <ArrowUpRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRightIcon className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
 
             {/* Mobile Hamburger Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 sm:p-2 rounded-full bg-white/5 border border-white/10 text-white hover:text-[#ccff00] transition-colors"
+              className="md:hidden p-2 rounded-full bg-white/5 border border-white/12 text-white hover:text-[#ccff00] hover:bg-white/10 transition-all shrink-0"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? (
@@ -278,29 +291,41 @@ export function Navbar() {
                 transition={{ duration: 0.3 }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className="pointer-events-auto absolute top-16 sm:top-20 left-3 right-3 xs:left-4 xs:right-4 bg-[#121212]/95 border border-white/15 rounded-2xl xs:rounded-3xl p-4 sm:p-6 backdrop-blur-2xl shadow-2xl md:hidden flex flex-col gap-2.5 max-h-[80vh] overflow-y-auto custom-scrollbar"
+                className="pointer-events-auto absolute top-18 sm:top-20 left-3 right-3 xs:left-4 xs:right-4 bg-[#121216]/96 border border-white/15 rounded-3xl p-5 sm:p-6 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] md:hidden flex flex-col gap-3 max-h-[80vh] overflow-y-auto custom-scrollbar"
               >
-                <div className="text-[10px] text-[#ccff00] font-mono tracking-widest uppercase mb-0.5 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ccff00] animate-ping" />
-                  Navigation Menu
+                <div className="text-[10px] text-[#ccff00] font-mono font-bold tracking-widest uppercase mb-0.5 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#ccff00] animate-ping" />
+                  <span>Navigation Menu</span>
                 </div>
                 {navItems.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item)}
-                    className="flex items-center justify-between p-3 xs:p-3.5 rounded-xl xs:rounded-2xl bg-white/5 hover:bg-[#ccff00]/10 hover:border-[#ccff00]/40 border border-white/5 text-left text-xs xs:text-sm font-display font-bold text-white hover:text-[#ccff00] transition-all"
+                    className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-[#ccff00]/10 hover:border-[#ccff00]/40 border border-white/5 text-left text-xs xs:text-sm font-display font-extrabold text-white hover:text-[#ccff00] transition-all"
                   >
                     <span className="tracking-wide">{item.label}</span>
                     <ArrowUpRightIcon className="w-4 h-4 text-white/40" />
                   </button>
                 ))}
+                
+                <a
+                  href="/Janindu_Jayasundara_CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Janindu_Jayasundara_CV.pdf"
+                  className="mt-1 w-full py-3.5 bg-white/10 hover:bg-[#ccff00]/20 border border-white/15 text-white hover:text-[#ccff00] font-display font-extrabold text-xs uppercase tracking-widest text-center rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <FileTextIcon className="w-4 h-4 text-[#ccff00]" />
+                  <span>Download Full CV</span>
+                </a>
+
                 <a
                   href="#contact"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavClick({ label: 'Contact', href: '#contact' });
                   }}
-                  className="mt-1 w-full py-3 sm:py-3.5 bg-[#ccff00] text-black font-display font-extrabold text-xs uppercase tracking-widest text-center rounded-xl xs:rounded-2xl shadow-lg"
+                  className="w-full py-3.5 bg-[#ccff00] text-black font-display font-black text-xs uppercase tracking-widest text-center rounded-2xl shadow-[0_10px_30px_rgba(204,255,0,0.35)] hover:bg-white transition-all"
                 >
                   Get In Touch
                 </a>
